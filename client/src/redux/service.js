@@ -1,3 +1,4 @@
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   addMyInfo,
@@ -7,7 +8,10 @@ import {
   deleteThePost,
 } from "./slice";
 
-const SERVER_URL="http://localhost:5000";
+// const SERVER_URL="http://localhost:5000";
+// const SERVER_URL="https://thread-backend-sjaa.onrender.com";
+const SERVER_URL = process.env.REACT_APP_BACKEND_URL;
+
 export const serviceApi = createApi({
   reducerPath: "serviceApi",
   baseQuery: fetchBaseQuery({
