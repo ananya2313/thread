@@ -22,4 +22,6 @@ app.use("/api", router);
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`App is listening on PORT : ${port}`);
+  
+console.log("Allowed CORS Origin:", process.env.CLIENT_URL)
 });
