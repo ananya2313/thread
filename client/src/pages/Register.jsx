@@ -42,6 +42,58 @@ const Register = () => {
   //   await signinUser(data);
   // };
 
+  // const handleRegister = async () => {
+  //   const data = {
+  //     userName,
+  //     email,
+  //     password,
+  //   };
+  
+  //   try {
+  //     const response = await signinUser(data).unwrap(); // Unwraps the response safely
+  //     toast.success(response.msg, {
+  //       position: "top-center",
+  //       autoClose: 2500,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       theme: "colored",
+  //       transition: Bounce,
+  //     });
+  
+  //     // Auto-login with registered email & password
+  //     const loginResponse = await loginUser({ email, password }).unwrap();
+  //     toast.success(loginResponse.msg, {
+  //       position: "top-center",
+  //       autoClose: 2500,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       theme: "colored",
+  //       transition: Bounce,
+  //     });
+  
+  //     // Optionally store the token in localStorage
+  //     localStorage.setItem("token", loginResponse.token);
+  
+  //     // Redirect to dashboard or homepage
+  //     window.location.href = "/dashboard"; // Change this to your desired page
+  
+  //   } catch (error) {
+  //     toast.error(error?.data?.msg || "Registration failed!", {
+  //       position: "top-center",
+  //       autoClose: 2500,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       theme: "colored",
+  //       transition: Bounce,
+  //     });
+  //   }
+  // };
   const handleRegister = async () => {
     const data = {
       userName,
@@ -50,7 +102,8 @@ const Register = () => {
     };
   
     try {
-      const response = await signinUser(data).unwrap(); // Unwraps the response safely
+      // Register the user
+      const response = await signinUser(data).unwrap(); // Unwrap the response safely
       toast.success(response.msg, {
         position: "top-center",
         autoClose: 2500,
@@ -95,9 +148,37 @@ const Register = () => {
     }
   };
   
+  
+
+  // useEffect(() => {
+  //   if (signinUserData.isSuccess) {
+  //     toast.success(signinUserData.data.msg, {
+  //       position: "top-center",
+  //       autoClose: 2500,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       theme: "colored",
+  //       transition: Bounce,
+  //     });
+  //   }
+  //   if (signinUserData.isError) {
+  //     toast.error(signinUserData.error.data.msg, {
+  //       position: "top-center",
+  //       autoClose: 2500,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       theme: "colored",
+  //       transition: Bounce,
+  //     });
+  //   }
+  // }, [signinUserData.isSuccess, signinUserData.isError]);
 
   useEffect(() => {
-    if (signinUserData.isSuccess) {
+    if (signinUserData.isSuccess && signinUserData.data?.msg) {
       toast.success(signinUserData.data.msg, {
         position: "top-center",
         autoClose: 2500,
@@ -109,7 +190,7 @@ const Register = () => {
         transition: Bounce,
       });
     }
-    if (signinUserData.isError) {
+    if (signinUserData.isError && signinUserData.error?.data?.msg) {
       toast.error(signinUserData.error.data.msg, {
         position: "top-center",
         autoClose: 2500,
@@ -121,10 +202,44 @@ const Register = () => {
         transition: Bounce,
       });
     }
-  }, [signinUserData.isSuccess, signinUserData.isError]);
+  }, [
+    signinUserData.isSuccess,
+    signinUserData.isError,
+    signinUserData.data?.msg,
+    signinUserData.error?.data?.msg,
+  ]);
+  
+
+  // useEffect(() => {
+  //   if (loginUserData.isSuccess) {
+  //     toast.success(loginUserData.data.msg, {
+  //       position: "top-center",
+  //       autoClose: 2500,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       theme: "colored",
+  //       transition: Bounce,
+  //     });
+  //   }
+  //   if (loginUserData.isError) {
+  //     toast.error(loginUserData.error.data.msg, {
+  //       position: "top-center",
+  //       autoClose: 2500,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       theme: "colored",
+  //       transition: Bounce,
+  //     });
+  //   }
+  // }, [loginUserData.isSuccess, loginUserData.isError]);
+
 
   useEffect(() => {
-    if (loginUserData.isSuccess) {
+    if (loginUserData.isSuccess && loginUserData.data?.msg) {
       toast.success(loginUserData.data.msg, {
         position: "top-center",
         autoClose: 2500,
@@ -136,7 +251,7 @@ const Register = () => {
         transition: Bounce,
       });
     }
-    if (loginUserData.isError) {
+    if (loginUserData.isError && loginUserData.error?.data?.msg) {
       toast.error(loginUserData.error.data.msg, {
         position: "top-center",
         autoClose: 2500,
@@ -148,7 +263,13 @@ const Register = () => {
         transition: Bounce,
       });
     }
-  }, [loginUserData.isSuccess, loginUserData.isError]);
+  }, [
+    loginUserData.isSuccess,
+    loginUserData.isError,
+    loginUserData.data?.msg,
+    loginUserData.error?.data?.msg,
+  ]);
+  
 
   if (signinUserData.isLoading || loginUserData.isLoading) {
     return (

@@ -13,11 +13,18 @@ const auth = async (req, res, next) => {
         .status(400)
         .json({ msg: "Error while decoding token in auth !" });
     }
-    const user = await User.findById(decodedToken.token)
-      .populate("followers")
-      .populate("threads")
-      .populate("replies")
-      .populate("reposts");
+    
+  const user = await User.findById(decodedToken.userId) 
+  .populate("followers")
+  .populate("threads")
+  .populate("replies")
+  .populate("reposts");
+
+    // const user = await User.findById(decodedToken.token)
+    //   .populate("followers")
+    //   .populate("threads")
+    //   .populate("replies")
+    //   .populate("reposts");
     if (!user) {
       return res.status(400).json({ msg: "No user found !" });
     }

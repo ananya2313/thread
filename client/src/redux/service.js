@@ -9,8 +9,9 @@ import {
 } from "./slice";
 
 // const SERVER_URL="http://localhost:5000";
-// const SERVER_URL="https://thread-backend-sjaa.onrender.com";
-const SERVER_URL = process.env.REACT_APP_BACKEND_URL;
+// const SERVER_URL = import.meta.env.REACT_APP_BACKEND_URL;
+const SERVER_URL = import.meta.env.VITE_BACKEND_URL;
+
 
 export const serviceApi = createApi({
   reducerPath: "serviceApi",
@@ -23,22 +24,42 @@ export const serviceApi = createApi({
   keepUnusedDataFor: 60 * 60 * 24 * 7,
   tagTypes: ["Post", "User", "Me"],
   endpoints: (builder) => ({
+    // signin: builder.mutation({
+    //   query: (data) => ({
+    //     url: "signin",
+    //     method: "POST",
+    //     body: data,
+    //   }),
+    //   invalidateTags: ["Me"],
+    // }),
+    // login: builder.mutation({
+    //   query: (data) => ({
+    //     url: "login",
+    //     method: "POST",
+    //     body: data,
+    //   }),
+    //   invalidatesTags: ["Me"],
+    // }),
+
+
     signin: builder.mutation({
       query: (data) => ({
-        url: "signin",
-        method: "POST",
-        body: data,
-      }),
-      invalidateTags: ["Me"],
-    }),
-    login: builder.mutation({
-      query: (data) => ({
-        url: "login",
+        url: "signin",  // Ensure this endpoint matches your backend
         method: "POST",
         body: data,
       }),
       invalidatesTags: ["Me"],
     }),
+    
+    login: builder.mutation({
+      query: (data) => ({
+        url: "login",  // Ensure this endpoint matches your backend
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Me"],
+    }),
+    
     myInfo: builder.query({
       query: () => ({
         url: "me",
