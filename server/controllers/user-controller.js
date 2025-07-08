@@ -31,13 +31,15 @@ exports.signin = async (req, res) => {
     if (!result) {
       return res.status(400).json({ msg: "Error while saving user !" });
     }
-    const accesToken = jwt.sign({ token: result._id }, process.env.JWT_SECRET, {
-      expiresIn: "30d",
-    });
-    if (!accesToken) {
+    // const accesToken = jwt.sign({ token: result._id }, process.env.JWT_SECRET, {
+    //   expiresIn: "30d",
+    // });
+    const accessToken = jwt.sign({ userId: result._id }, process.env.JWT_SECRET, { expiresIn: "30d" });
+
+    if (!accessToken) {
       return res.status(400).json({ msg: "Error while generating token !" });
     }
-    res.cookie("token", accesToken, {
+    res.cookie("token", accessToken, {
       maxAge: 1000 * 60 * 60 * 24 * 30,
       httpOnly: true,
       sameSite: "none",
@@ -67,11 +69,17 @@ exports.login = async (req, res) => {
     if (!passwordMatched) {
       return res.status(400).json({ msg: "Incorrect credentials !" });
     }
-    const accessToken = jwt.sign(
-      { token: userExists._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "30d" }
-    );
+
+    // const accessToken = jwt.sign(
+    //   { token: userExists._id },
+    //   process.env.JWT_SECRET,
+    //   { expiresIn: "30d" }
+    // );
+
+    const accessToken = jwt.sign({ userId: userExists._id }, process.env.JWT_SECRET, {expiresIn: "30d"});
+    
+
+
     if (!accessToken) {
       return res.status(400).json({ msg: "Token not generated in login !" });
     }
@@ -82,7 +90,10 @@ exports.login = async (req, res) => {
       sameSite: "none",
       partitioned: true,
     });
-    res.status(200).json({ msg: "User logged in succcessfully !" });
+    
+    // res.status(200).json({ msg: "User logged in succcessfully !" });
+    res.status(200).json({ msg: "User logged in successfully!", token: accessToken });
+
   } catch (err) {
     res.status(400).json({ msg: "Error in login !", err: err.message });
   }

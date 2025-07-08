@@ -15,7 +15,25 @@ import { useMyInfoQuery } from "./redux/service";
 
 const App = () => {
   const { darkMode } = useSelector((state) => state.service);
-  const { data, isError } = useMyInfoQuery();
+  // const { data, isError } = useMyInfoQuery();
+  const token = localStorage.getItem("token");
+
+// const { data, isError } = useMyInfoQuery(undefined, {
+//   skip: !token, // ✅ Don't call if token doesn't exist
+// });
+
+const { data, isError } = useMyInfoQuery(undefined, {
+  skip: !token,
+  onError: (err) => {
+    if (err?.status !== 401) {
+      console.error("❌ myInfo fetch error:", err);
+    }
+  },
+});
+
+
+
+
 
   if (isError || !data) {
     return (
