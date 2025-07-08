@@ -12,42 +12,55 @@ const app = express();
 connectDB();
 
 
+// const allowedOrigins = [
+//   "http://localhost:5173",
+//   "http://localhost:3000",
+//   "https://thread-1yni.onrender.com"
+// ];
+
+
+
+
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     // Allow requests with no origin (like mobile apps or curl requests)
+//     if (!origin) return callback(null, true);
+
+//     if (allowedOrigins.includes(origin)) {
+//       callback(null, true); // origin allowed
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true,
+// }));
 const allowedOrigins = [
+  "https://thread-1yni.onrender.com",
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://thread-1yni.onrender.com"
 ];
 
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 
 
+// // Also update preflight OPTIONS request
+// app.options("*", cors({
+//   origin: function (origin, callback) {
+//     if (!origin) return callback(null, true);
 
-app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true); // origin allowed
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-}));
-
-// Also update preflight OPTIONS request
-app.options("*", cors({
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-}));
+//     if (allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true,
+// }));
 
 
 
