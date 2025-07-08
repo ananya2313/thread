@@ -49,7 +49,8 @@ exports.signin = async (req, res) => {
     res
       .status(201)
       .json({ msg: `User Signed in successfully ! hello ${result?.userName}` });
-  } catch (err) {
+  }
+   catch (err) {
     res.status(400).json({ msg: "Error in signin !", err: err.message });
   }
 };

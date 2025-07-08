@@ -132,7 +132,7 @@ const Register = () => {
       localStorage.setItem("token", loginResponse.token);
   
       // Redirect to dashboard or homepage
-      window.location.href = "/dashboard"; // Change this to your desired page
+      window.location.href = "/"; // Change this to your desired page
   
     } catch (error) {
       toast.error(error?.data?.msg || "Registration failed!", {
