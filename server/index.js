@@ -11,11 +11,13 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
+
 const allowedOrigins = [
-  // process.env.CLIENT_URL,
   "http://localhost:5173",
-  "http://localhost:3000", // ✅ Add this
+  "http://localhost:3000",
+  "https://thread-frontend.onrender.com" // ✅ Add this line
 ];
+
 
 
 
@@ -53,6 +55,11 @@ app.options("*", cors({
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api", router);
+
+app.get("/", (req, res) => {
+  res.send("✅ Backend is live and working!");
+});
+
 
 // Start server
 const port = process.env.PORT || 5000;
