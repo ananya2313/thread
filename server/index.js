@@ -15,7 +15,7 @@ connectDB();
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://thread-frontend.onrender.com" // ✅ Add this line
+  "https://thread-1yni.onrender.com"
 ];
 
 
