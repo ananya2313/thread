@@ -23,12 +23,22 @@ const {
   deleteComment,
 } = require("./controllers/comment-controller");
 
+
+ 
+const {
+  sendMessage,
+  getMessages,
+  markMessagesAsSeen,
+  getUserChats, // ✅ Add this
+} = require("./controllers/message-controller");
+
+
 const router = express.Router();
 
 router.post("/signin", signin);
 router.post("/login", login);
 
-router.get("/user/:id", auth, userDetails);
+router.get("/user/:id", auth, userFDetails);
 router.put("/user/follow/:id", auth, followUser);
 router.put("/update", auth, updateProfile);
 router.get("/users/search/:query", auth, searchUser);
@@ -44,5 +54,16 @@ router.get("/post/:id", auth, singlePost);
 
 router.post("/comment/:id", auth, addComment);
 router.delete("/comment/:postId/:id", auth, deleteComment);
+
+router.post("/message", auth, sendMessage);             // Store new message
+router.get("/message/:room", auth, getMessages);        // Fetch messages by room ID
+router.put("/message/seen", auth, markMessagesAsSeen); 
+router.get("/message/user-chats/:id", auth, getUserChats); // 👈 New Route
+
+router.get("/message/user-chats/:id", auth, getUserChats); // ✅ New route for chat list
+
+const { getAllUsers } = require("./controllers/user-controller");
+
+router.get("/users", auth, getAllUsers); // ✅ Add this route
 
 module.exports = router;

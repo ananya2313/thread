@@ -12,28 +12,26 @@ import Search from "./pages/Protected/Search";
 import Register from "./pages/Register";
 import SinglePost from "./pages/Protected/SinglePost";
 import { useMyInfoQuery } from "./redux/service";
-
+import ChatPage from "./pages/Protected/ChatPage"; // ✅ new wrapper page
+// import ChatList from "./components/ChatList";
+import MessageListPage from "./pages/Protected/MessageListPage"; 
 const App = () => {
   const { darkMode } = useSelector((state) => state.service);
   // const { data, isError } = useMyInfoQuery();
   const token = localStorage.getItem("token");
 
-// const { data, isError } = useMyInfoQuery(undefined, {
-//   skip: !token, // ✅ Don't call if token doesn't exist
-// });
+  // const { data, isError } = useMyInfoQuery(undefined, {
+  //   skip: !token, // ✅ Don't call if token doesn't exist
+  // });
 
-const { data, isError } = useMyInfoQuery(undefined, {
-  skip: !token,
-  onError: (err) => {
-    if (err?.status !== 401) {
-      console.error("❌ myInfo fetch error:", err);
-    }
-  },
-});
-
-
-
-
+  const { data, isError } = useMyInfoQuery(undefined, {
+    skip: !token,
+    onError: (err) => {
+      if (err?.status !== 401) {
+        console.error("❌ myInfo fetch error:", err);
+      }
+    },
+  });
 
   if (isError || !data) {
     return (
@@ -54,12 +52,16 @@ const { data, isError } = useMyInfoQuery(undefined, {
               <Route exact path="" element={<Home />} />
               <Route exact path="post/:id" element={<SinglePost />} />
               <Route exact path="search" element={<Search />} />
+              <Route exact path="chat/:userId" element={<ChatPage />} />
+              <Route exact path="messages" element={<MessageListPage />} />
+
               <Route exact path="profile" element={<ProfileLayout />}>
                 <Route exact path="threads/:id" element={<Threads />} />
                 <Route exact path="replies/:id" element={<Replies />} />
                 <Route exact path="reposts/:id" element={<Repost />} />
               </Route>
             </Route>
+
             <Route exact path="*" element={<Error />} />
           </Routes>
         </BrowserRouter>

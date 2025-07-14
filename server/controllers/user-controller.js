@@ -118,7 +118,9 @@ exports.userDetails = async (req, res) => {
         path: "reposts",
         populate: [{ path: "likes" }, { path: "comments" }, { path: "admin" }],
       });
-    res.status(200).json({ msg: "User Details Fetched !", user });
+    // res.status(200).json({ msg: "User Details Fetched !", user });
+    res.status(200).json(user);
+
   } catch (err) {
     res.status(400).json({ msg: "Error in userDetails !", err: err.message });
   }
@@ -243,5 +245,14 @@ exports.myInfo = async (req, res) => {
     res.status(200).json({ me: req.user });
   } catch (err) {
     res.status(400).json({ msg: "Error in myInfo !" });
+  }
+};
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-password");
+    res.status(200).json({ users });
+  } catch (err) {
+    res.status(500).json({ msg: "Error fetching users", err: err.message });
   }
 };

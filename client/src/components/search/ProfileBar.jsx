@@ -7,7 +7,7 @@ import {
   } from "@mui/material";
   import { useSelector } from "react-redux";
   import { Link } from "react-router-dom";
-  
+  import PropTypes from "prop-types";
   const ProfileBar = ({ e }) => {
     const { darkMode } = useSelector((state) => state.service);
     const _700 = useMediaQuery("(min-width:700px)");
@@ -68,4 +68,14 @@ import {
       </>
     );
   };
+  ProfileBar.propTypes = {
+  e: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    profilePic: PropTypes.string,
+    userName: PropTypes.string.isRequired,
+    bio: PropTypes.string,
+    followers: PropTypes.arrayOf(PropTypes.string).isRequired, // or objects, depending on your structure
+  }).isRequired,
+};
+
   export default ProfileBar;
